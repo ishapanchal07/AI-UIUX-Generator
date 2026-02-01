@@ -1,13 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 function Header() {
+  const { user } = useUser();
+
   return (
     <div className="flex items-center justify-between p-4">
       <div className="flex gap-2 items-center">
         <Image src={logo} alt="logo" width={40} height={40} />
-        <h2 className="text-xl font-semibold"><span className="text-primary">UIUX</span> MOCK</h2>
+        <h2 className="text-xl font-semibold">
+          <span className="text-primary">UIUX</span> MOCK
+        </h2>
       </div>
 
       <ul className="flex gap-5 items-center text-lg">
@@ -15,7 +22,14 @@ function Header() {
         <li className="hover:text-primary cursor-pointer">Pricing</li>
       </ul>
 
-      <Button>Get Started</Button>
+      {!user ? (
+        <SignInButton mode='modal'>
+          <Button>Get Started</Button>
+          </SignInButton>
+
+      ) : (
+        <UserButton />
+      )}
     </div>
   );
 }
